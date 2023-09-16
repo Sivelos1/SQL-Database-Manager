@@ -97,7 +97,7 @@ const db = mysql.createConnection(
   {
     host: 'localhost',
     user: 'root',
-    password: '',
+    password: 'Gunmetalgray1!',
     database: dbName
   },
   console.log(`Connected to the ${dbName} database.`)
@@ -137,12 +137,13 @@ const deptManagement = {
         deptManagement.view();
       }else if(response.answer === questionText.deptManagement.choices[1]){
         console.clear();
+        deptManagement.add();
       }else if(response.answer === questionText.deptManagement.choices[2]){
-        
         console.clear();
+        deptManagement.edit();
       }else if(response.answer === questionText.deptManagement.choices[3]){
-        
         console.clear();
+        deptManagement.delete();
       }else{
         console.clear();
         mainMenu();
@@ -161,24 +162,36 @@ const deptManagement = {
     inquirer.prompt({message:questionText.deptManagement.addNew.title,
         type:'input',
         name:'title'}).then(function(response){
-          db.query('INSERT INTO '+dbName+' ', function(err, results){
-
+          db.query('INSERT INTO '+dbName+' department VALUES (\''+response.title+'\')', function(err, results){
+            console.clear();
+            console.log('Department `'+response.title+'` added.');
+            deptManagement.menu();
           })
         })
-  }
+  },
+  edit: function(){
+    console.clear();
+    deptManagement.menu();
+  },
+  delete: function(){
+    console.clear();
+    deptManagement.menu();
+  },
 }
 const roleManagement = {
   menu: function(){
-    inquirer.prompt(questions.roleMenu).then(function(response){
-      console.clear();
-      if(response.answer === questionText.roleManagement.choices[0]){
+    inquirer.prompt(questions.deptMenu).then(function(response){
+      if(response.answer === questionText.deptManagement.choices[0]){
         roleManagement.view();
-      }else if(response.answer === questionText.roleManagement.choices[1]){
-    
-      }else if(response.answer === questionText.roleManagement.choices[2]){
-        
-      }else if(response.answer === questionText.roleManagement.choices[3]){
-        
+      }else if(response.answer === questionText.deptManagement.choices[1]){
+        console.clear();
+        roleManagement.add();
+      }else if(response.answer === questionText.deptManagement.choices[2]){
+        console.clear();
+        roleManagement.edit();
+      }else if(response.answer === questionText.deptManagement.choices[3]){
+        console.clear();
+        roleManagement.delete();
       }else{
         console.clear();
         mainMenu();
@@ -189,25 +202,44 @@ const roleManagement = {
     console.clear();
     db.query('SELECT * FROM '+dbName, function (err, results) {
       console.log(results);
-      deptManagement.menu();
+      roleManagement.menu();
     });
-  }
+  },
+  add: function(){
+    console.clear();
+    inquirer.prompt({message:questionText.deptManagement.addNew.title,
+        type:'input',
+        name:'title'}).then(function(response){
+          db.query('INSERT INTO '+dbName+' role VALUES (\''+response.title+'\')', function(err, results){
+            console.clear();
+            console.log('Role `'+response.title+'` added.');
+            roleManagement.menu();
+          })
+        })
+  },
+  edit: function(){
+    console.clear();
+    roleManagement.menu();
+  },
+  delete: function(){
+    console.clear();
+    roleManagement.menu();
+  },
 }
 const employeeManagement = {
   menu: function(){
-    inquirer.prompt(questions.employeeMenu).then(function(response){
-      console.clear();
-      if(response.answer === questionText.employeeManagement.choices[0]){
+    inquirer.prompt(questions.deptMenu).then(function(response){
+      if(response.answer === questionText.deptManagement.choices[0]){
         employeeManagement.view();
       }else if(response.answer === questionText.deptManagement.choices[1]){
         console.clear();
-    
+        employeeManagement.add();
       }else if(response.answer === questionText.deptManagement.choices[2]){
         console.clear();
-        
+        employeeManagement.edit();
       }else if(response.answer === questionText.deptManagement.choices[3]){
         console.clear();
-        
+        employeeManagement.delete();
       }else{
         console.clear();
         mainMenu();
@@ -218,9 +250,29 @@ const employeeManagement = {
     console.clear();
     db.query('SELECT * FROM '+dbName, function (err, results) {
       console.log(results);
-      deptManagement.menu();
+      employeeManagement.menu();
     });
-  }
+  },
+  add: function(){
+    console.clear();
+    inquirer.prompt({message:questionText.deptManagement.addNew.title,
+        type:'input',
+        name:'title'}).then(function(response){
+          db.query('INSERT INTO '+dbName+' role VALUES (\''+response.title+'\')', function(err, results){
+            console.clear();
+            console.log('Role `'+response.title+'` added.');
+            employeeManagement.menu();
+          })
+        })
+  },
+  edit: function(){
+    console.clear();
+    employeeManagement.menu();
+  },
+  delete: function(){
+    console.clear();
+    employeeManagement.menu();
+  },
 
 }
 

@@ -101,6 +101,3 @@ const db = mysql.createConnection(
   console.log(`Connected to the ${dbName} database.`)
 );
 
-db.query(`SELECT * FROM ${dbName}`, function (err, results) {
-  console.log(results);
-});

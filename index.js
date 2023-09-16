@@ -1,5 +1,10 @@
-
+const express = require('express');
+// Import and require mysql2
+const mysql = require('mysql2');
 const inquirer = require('inquirer');
+
+
+const dbName = 'inventory_db'
 
 const questionText = {
   generic:{
@@ -17,6 +22,7 @@ const questionText = {
     addNew:{
       title:"Please enter a title: ",
     },
+    choose:"Please enter the ID of the department: ",
     edit:{
       prompt:"What would you like to change?",
       choices:["Title"],
@@ -30,6 +36,7 @@ const questionText = {
       salary:"Please enter an annual salary: $",
       department:"Please enter the role\'s department. You can enter the department\'s name or ID: ",
     },
+    choose:"Please enter the ID of the role: ",
     edit:{
       prompt:"What would you like to change?",
       choices:["Title", "Salary"],
@@ -44,6 +51,7 @@ const questionText = {
       role:"Please enter the employee\'s role. You can enter the role\'s name or ID: ",
       manager:"Please enter the ID of the employee\'s manager: "
     },
+    choose:"Please enter the ID of the employee: ",
     edit:{
       prompt:"What would you like to change?",
       choices:["First Name", "Last Name", "Role", "Manager"],
@@ -55,42 +63,44 @@ const questionText = {
 const questions = {
   mainMenu: {
       type:'list',
-      message:questionText.mainMenu.prompt + questionText.generic.newline,
+      message:questionText.mainMenu.prompt,
       name:'answer',
-      choices: [questionText.mainMenu.choices, ...questionText.generic.exit]},
-  deptManagement:{
-    menu:{
-      type:'list',
-      message:questionText.generic.prompt + questionText.generic.newline,
-      name:'answer',
-      choices: [questionText.deptManagement.choices, ...questionText.generic.exit]},
-  }
+      choices: [...questionText.mainMenu.choices, questionText.generic.exit]},
+  deptMenu:{
+    type:'list',
+    message:questionText.generic.prompt,
+    name:'answer',
+    choices: [...questionText.deptManagement.choices, questionText.generic.exit]},
+  roleMenu:{
+    type:'list',
+    message:questionText.generic.prompt,
+    name:'answer',
+    choices: [...questionText.roleManagement.choices, questionText.generic.exit]},
+  employeeMenu:{
+    type:'list',
+    message:questionText.generic.prompt,
+    name:'answer',
+    choices: [...questionText.employeeManagement.choices, questionText.generic.exit]},
 }
 
-const Run = async function(){
-  var nextQuestion = "mainMenu";
-  var looping = true;
-  while(looping){
-    await inquirer.prompt(questions[nextQuestion]).then(function(response){
-      switch (nextQuestion) {
-        case "mainMenu":
-          if(response.answer === questionText.mainMenu.choices[0]){
+const PORT = process.env.PORT || 3001;
+const app = express();
 
-          }else if(response.answer === questionText.mainMenu.choices[1]){
+// Express middleware
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
-          }else if (response.answer === questionText.mainMenu.choices[2]){
+// Connect to database
+const db = mysql.createConnection(
+  {
+    host: 'localhost',
+    user: 'root',
+    password: 'Gunmetalgray1!',
+    database: dbName
+  },
+  console.log(`Connected to the ${dbName} database.`)
+);
 
-          }else{
-            console.log("Bye bye!");
-            looping = false;
-          }
-          break;
-      
-        default:
-          break;
-      }
-    });
-  }
-}
-
-await Run();
+db.query(`SELECT * FROM ${dbName}`, function (err, results) {
+  console.log(results);
+});

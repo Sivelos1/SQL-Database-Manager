@@ -1,6 +1,7 @@
 const express = require('express');
 // Import and require mysql2
 const mysql = require('mysql2');
+const path = require('path');
 const inquirer = require('inquirer');
 
 
@@ -83,6 +84,7 @@ const questions = {
     choices: [...questionText.employeeManagement.choices, questionText.generic.exit]},
 }
 
+
 const PORT = process.env.PORT || 3001;
 const app = express();
 
@@ -95,9 +97,131 @@ const db = mysql.createConnection(
   {
     host: 'localhost',
     user: 'root',
-    password: 'Gunmetalgray1!',
+    password: '',
     database: dbName
   },
   console.log(`Connected to the ${dbName} database.`)
 );
 
+// Default response for any other request (Not Found)
+app.use((req, res) => {
+  res.status(404).end();
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+const mainMenu = function(){
+  inquirer.prompt(questions.mainMenu).then(function(response){
+    if(response.answer === questionText.mainMenu.choices[0]){
+      console.clear();
+      deptManagement.menu();
+    }else if(response.answer === questionText.mainMenu.choices[1]){
+      console.clear();
+      roleManagement.menu();
+    }else if(response.answer === questionText.mainMenu.choices[2]){
+      console.clear();
+      employeeManagement.menu();
+    }else{
+      console.log("Bye bye!");
+      process.exit(0);
+    }
+  });
+}
+
+const deptManagement = {
+  menu: function(){
+    inquirer.prompt(questions.deptMenu).then(function(response){
+      if(response.answer === questionText.deptManagement.choices[0]){
+        deptManagement.view();
+      }else if(response.answer === questionText.deptManagement.choices[1]){
+        console.clear();
+      }else if(response.answer === questionText.deptManagement.choices[2]){
+        
+        console.clear();
+      }else if(response.answer === questionText.deptManagement.choices[3]){
+        
+        console.clear();
+      }else{
+        console.clear();
+        mainMenu();
+      }
+    });
+  },
+  view: function(){
+    console.clear();
+    db.query('SELECT * FROM '+dbName, function (err, results) {
+      console.log(results);
+      deptManagement.menu();
+    });
+  },
+  add: function(){
+    console.clear();
+    inquirer.prompt({message:questionText.deptManagement.addNew.title,
+        type:'input',
+        name:'title'}).then(function(response){
+          db.query('INSERT INTO '+dbName+' ', function(err, results){
+
+          })
+        })
+  }
+}
+const roleManagement = {
+  menu: function(){
+    inquirer.prompt(questions.roleMenu).then(function(response){
+      console.clear();
+      if(response.answer === questionText.roleManagement.choices[0]){
+        roleManagement.view();
+      }else if(response.answer === questionText.roleManagement.choices[1]){
+    
+      }else if(response.answer === questionText.roleManagement.choices[2]){
+        
+      }else if(response.answer === questionText.roleManagement.choices[3]){
+        
+      }else{
+        console.clear();
+        mainMenu();
+      }
+    });
+  },
+  view: function(){
+    console.clear();
+    db.query('SELECT * FROM '+dbName, function (err, results) {
+      console.log(results);
+      deptManagement.menu();
+    });
+  }
+}
+const employeeManagement = {
+  menu: function(){
+    inquirer.prompt(questions.employeeMenu).then(function(response){
+      console.clear();
+      if(response.answer === questionText.employeeManagement.choices[0]){
+        employeeManagement.view();
+      }else if(response.answer === questionText.deptManagement.choices[1]){
+        console.clear();
+    
+      }else if(response.answer === questionText.deptManagement.choices[2]){
+        console.clear();
+        
+      }else if(response.answer === questionText.deptManagement.choices[3]){
+        console.clear();
+        
+      }else{
+        console.clear();
+        mainMenu();
+      }
+    });
+  },
+  view: function(){
+    console.clear();
+    db.query('SELECT * FROM '+dbName, function (err, results) {
+      console.log(results);
+      deptManagement.menu();
+    });
+  }
+
+}
+
+mainMenu();

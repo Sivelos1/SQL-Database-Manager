@@ -38,29 +38,54 @@ VALUES (001, "Financial Analyst", 30.50, 001),
 (024, "Operations Manager", 15.25, 005),
 (025, "Entry Level Employee", 7.25, 005);
 
-INSERT INTO employees (id, first_name, last_name, role_id, manager_id)
-VALUES (001, "Bret", "Harper", 001, 023),
-(002, "Mason", "Walker", 002, 023),
-(003, "Rudy", "Hudson", 003, 023),
-(004, "Aubrey", "George", 004, 023),
-(005, "Gabe", "Scott", 005, 023),
-(006, "Kit", "Head", 006, 010),
-(007, "Sammy", "Arnold", 007, 010),
-(008, "Ray", "Watts", 008, 010),
-(009, "Alexis", "Wynn", 009, 010),
-(010, "Silver", "Decker", 010, 021),
-(011, "Jo", "Davidson", 011, 021),
-(012, "Jamie", "Austin", 012, 011),
-(013, "Gabby", "Webb", 013, 011),
-(014, "Willy", "Saunders", 014, 013),
-(015, "Lane", "Anderson", 015, 014),
-(016, "Kiran", "Sanders", 016, 024),
-(017, "Skye", "Melton", 017, 024),
-(018, "Kris", "LeBlanc", 018, 024),
-(019, "Frankie", "Nalsh", 019, 020),
-(020, "Reggie", "Reilly", 020, 018),
-(021, "Jordan", "Porter", 021, 021),
-(022, "Sam", "Gibson", 022, 021),
-(023, "Val", "Porter", 023, 021),
-(024, "Rene", "Marsh", 024, 023),
-(025, "Gale", "Butler", 025, 020);
+INSERT INTO employees (id, first_name, last_name, role_id)
+VALUES (001, "Bret", "Harper", 001),
+(002, "Mason", "Walker", 002),
+(003, "Rudy", "Hudson", 003),
+(004, "Aubrey", "George", 004),
+(005, "Gabe", "Scott", 005),
+(006, "Kit", "Head", 006),
+(007, "Sammy", "Arnold", 007),
+(008, "Ray", "Watts", 008),
+(009, "Alexis", "Wynn", 009),
+(010, "Silver", "Decker", 010),
+(011, "Jo", "Davidson", 011),
+(012, "Jamie", "Austin", 012),
+(013, "Gabby", "Webb", 013),
+(014, "Willy", "Saunders", 014),
+(015, "Lane", "Anderson", 015),
+(016, "Kiran", "Sanders", 016),
+(017, "Skye", "Melton", 017),
+(018, "Kris", "LeBlanc", 018),
+(019, "Frankie", "Nalsh", 019),
+(020, "Reggie", "Reilly", 020),
+(021, "Jordan", "Porter", 021),
+(022, "Sam", "Gibson", 022),
+(023, "Val", "Porter", 023),
+(024, "Rene", "Marsh", 024),
+(025, "Gale", "Butler", 025);
+
+UPDATE employees SET manager_id = 023 WHERE id = 001;
+UPDATE employees SET manager_id = 023 WHERE id = 002;
+UPDATE employees SET manager_id = 023 WHERE id = 003;
+UPDATE employees SET manager_id = 023 WHERE id = 004;
+UPDATE employees SET manager_id = 023 WHERE id = 005;
+UPDATE employees SET manager_id = 010 WHERE id = 006;
+UPDATE employees SET manager_id = 010 WHERE id = 007;
+UPDATE employees SET manager_id = 010 WHERE id = 008;
+UPDATE employees SET manager_id = 010 WHERE id = 009;
+UPDATE employees SET manager_id = 021 WHERE id = 010;
+UPDATE employees SET manager_id = 021 WHERE id = 011;
+UPDATE employees SET manager_id = 011 WHERE id = 012;
+UPDATE employees SET manager_id = 011 WHERE id = 013;
+UPDATE employees SET manager_id = 013 WHERE id = 014;
+UPDATE employees SET manager_id = 014 WHERE id = 015;
+UPDATE employees SET manager_id = 024 WHERE id = 016;
+UPDATE employees SET manager_id = 024 WHERE id = 017;
+UPDATE employees SET manager_id = 024 WHERE id = 018;
+UPDATE employees SET manager_id = 020 WHERE id = 019;
+UPDATE employees SET manager_id = 018 WHERE id = 020;
+UPDATE employees SET manager_id = 021 WHERE id = 022;
+UPDATE employees SET manager_id = 021 WHERE id = 023;
+UPDATE employees SET manager_id = 023 WHERE id = 024;
+UPDATE employees SET manager_id = 020 WHERE id = 025;

@@ -101,7 +101,8 @@ const db = mysql.createConnection(
     database: dbName
   },
   console.log(`Connected to the ${dbName} database.`)
-).connect();
+);
+
 
 // Default response for any other request (Not Found)
 app.use((req, res) => {
@@ -180,7 +181,7 @@ const deptManagement = {
 }
 const roleManagement = {
   menu: function(){
-    inquirer.prompt(questions.deptMenu).then(function(response){
+    inquirer.prompt(questions.roleMenu).then(function(response){
       if(response.answer === questionText.deptManagement.choices[0]){
         roleManagement.view();
       }else if(response.answer === questionText.deptManagement.choices[1]){
@@ -228,7 +229,7 @@ const roleManagement = {
 }
 const employeeManagement = {
   menu: function(){
-    inquirer.prompt(questions.deptMenu).then(function(response){
+    inquirer.prompt(questions.employeeMenu).then(function(response){
       if(response.answer === questionText.deptManagement.choices[0]){
         employeeManagement.view();
       }else if(response.answer === questionText.deptManagement.choices[1]){
@@ -248,7 +249,7 @@ const employeeManagement = {
   },
   view: function(){
     console.clear();
-    db.query('SELECT * FROM '+dbName, function (err, results) {
+    db.query('SELECT * FROM '+dbName+';', function (err, results) {
       console.log(results);
       employeeManagement.menu();
     });

@@ -1,15 +1,15 @@
-DROP DATABASE IF EXISTS inventory_db;
--- Creates the inventory_db database --
-CREATE DATABASE inventory_db;
+DROP DATABASE IF EXISTS workplace_db;
+-- Creates the workplace_db database --
+CREATE DATABASE workplace_db;
 
--- use inventory_db database --
-USE inventory_db;
+-- use workplace_db database --
+USE workplace_db;
 
 
 -- Department Table
 CREATE TABLE department (
   id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-  name VARCHAR(30) NOT NULL
+  department_name VARCHAR(30) NOT NULL
 );
 
 -- Role Table

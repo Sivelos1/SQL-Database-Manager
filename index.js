@@ -101,7 +101,7 @@ const db = mysql.createConnection(
     database: dbName
   },
   console.log(`Connected to the ${dbName} database.`)
-);
+).connect();
 
 // Default response for any other request (Not Found)
 app.use((req, res) => {

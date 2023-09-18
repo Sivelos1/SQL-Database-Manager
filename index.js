@@ -3,9 +3,10 @@ const express = require('express');
 const mysql = require('mysql2');
 const path = require('path');
 const inquirer = require('inquirer');
+const source = require('./source.env');
 
 
-const dbName = 'inventory_db'
+const dbName = 'workplace_db'
 
 const questionText = {
   generic:{
@@ -96,8 +97,8 @@ app.use(express.json());
 const db = mysql.createConnection(
   {
     host: 'localhost',
-    user: 'root',
-    password: 'Gunmetalgray1!',
+    user: process.env.SECRET_NAME,
+    password: process.env.SECRET_KEY,
     database: dbName
   },
   console.log(`Connected to the ${dbName} database.`)
@@ -111,6 +112,7 @@ app.use((req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  mainMenu();
 });
 
 const mainMenu = function(){

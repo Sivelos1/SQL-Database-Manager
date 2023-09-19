@@ -293,7 +293,7 @@ const roleManagement = {
   },
   edit: function(){
     console.clear();
-    inquirer.prompt({message:questionText.deptManagement.choose,
+    inquirer.prompt({message:questionText.roleManagement.choose,
       type:'input',
       name:'id'}).then(function(response){
         var id = response.id;
@@ -353,7 +353,35 @@ const roleManagement = {
   },
   delete: function(){
     console.clear();
-    roleManagement.menu();
+    inquirer.prompt({message:questionText.roleManagement.choose,
+      type:'input',
+      name:'id'}).then(function(response){
+        var id = response.id;
+        db.query('SELECT * FROM roles WHERE id = ?', [id], function(err, results){
+          console.clear();
+          if(err) console.log(err);
+          console.log('Role Selected:');
+          console.log(results);
+          var result = results;
+          inquirer.prompt({message:questionText.generic.areYouSure,
+          type:'list',
+          name:'answer',
+          choices:[...questionText.generic.yesNo]}).then(function(response){
+            if(response.answer === questionText.generic.yesNo[0]){
+              db.query('DELETE FROM roles WHERE id = ?',[id], function(err, results){
+                console.clear();
+                if(err) console.log(err);
+                console.log('Element deleted.');
+                roleManagement.menu();
+              });
+            }
+            else{
+              console.clear();
+              roleManagement.menu();
+            }
+          })
+        })
+      })
   },
 }
 const employeeManagement = {
@@ -392,23 +420,123 @@ const employeeManagement = {
   },
   add: function(){
     console.clear();
-    inquirer.prompt({message:questionText.deptManagement.addNew.title,
-        type:'input',
-        name:'title'}).then(function(response){
-          db.query('INSERT INTO '+dbName+' role VALUES (\''+response.title+'\')', function(err, results){
+    inquirer.prompt([
+        {message:questionText.employeeManagement.addNew.firstName,type:'input',name:'firstName'},
+        {message:questionText.employeeManagement.addNew.lastName, type:'input',name:'lastName'},
+        {message:questionText.employeeManagement.addNew.role, type:'input',name:'role'},
+      ]).then(function(response){
+          db.query('INSERT INTO employees (first_name, last_name, role_id) VALUES (?,?,?)', [response.firstName, response.lastName, response.role], function(err, results){
             console.clear();
-            console.log('Role `'+response.title+'` added.');
+            if(err) console.log(err);
+            console.log(results);
+            console.log('Employee `'+response.firstName + ' '+response.lastName+'` added.');
             employeeManagement.menu();
           })
         })
   },
   edit: function(){
     console.clear();
-    employeeManagement.menu();
+    inquirer.prompt({message:questionText.employeeManagement.choose,
+      type:'input',
+      name:'id'}).then(function(response){
+        var id = response.id;
+        db.query('SELECT * FROM employees WHERE id = ?', [id], function(err, results){
+          console.clear();
+          if(err) console.log(err);
+          console.log('Role Selected:');
+          console.log(results);
+          var result = results;
+          inquirer.prompt({message:questionText.employeeManagement.edit.prompt,
+            type:'list',
+            name:'answer',
+            choices:[...questionText.employeeManagement.edit.choices, questionText.generic.exit]}).then(function(response){
+                if(response.answer === questionText.employeeManagement.edit.choices[0]){
+                  inquirer.prompt({message:questionText.employeeManagement.addNew.firstName,
+                    type:'input',
+                    name:'answer'}).then(function(response){
+                      db.query('UPDATE employees SET first_name = ? WHERE id = ?',[response.answer, id], function(err, results){
+                        console.clear();
+                        if(err) console.log(err);
+                        console.log('Employee #'+id+' updated.');
+                        employeeManagement.menu();
+                      })
+                    })
+                }
+                else if(response.answer === questionText.employeeManagement.edit.choices[1]){
+                  inquirer.prompt({message:questionText.employeeManagement.addNew.lastName,
+                    type:'input',
+                    name:'answer'}).then(function(response){
+                      db.query('UPDATE employees SET last_name = ? WHERE id = ?',[response.answer, id], function(err, results){
+                        console.clear();
+                        if(err) console.log(err);
+                        console.log('Employee #'+id+' updated.');
+                        employeeManagement.menu();
+                      })
+                    })
+                }
+                else if(response.answer === questionText.employeeManagement.edit.choices[2]){
+                  inquirer.prompt({message:questionText.employeeManagement.addNew.role,
+                    type:'input',
+                    name:'answer'}).then(function(response){
+                      db.query('UPDATE employees SET role_id = ? WHERE id = ?',[response.answer, id], function(err, results){
+                        console.clear();
+                        if(err) console.log(err);
+                        console.log('Employee #'+id+' updated.');
+                        employeeManagement.menu();
+                      })
+                    })
+                }
+                else if(response.answer === questionText.employeeManagement.edit.choices[3]){
+                  inquirer.prompt({message:questionText.employeeManagement.addNew.manager,
+                    type:'input',
+                    name:'answer'}).then(function(response){
+                      db.query('UPDATE employees SET manager_id = ? WHERE id = ?',[response.answer, id], function(err, results){
+                        console.clear();
+                        if(err) console.log(err);
+                        console.log('Employee #'+id+' updated.');
+                        employeeManagement.menu();
+                      })
+                    })
+                }
+                else if (response.answer === questionText.generic.exit){
+                  console.clear();
+                  employeeManagement.menu();
+                }
+            })
+        })
+      })
   },
   delete: function(){
     console.clear();
-    employeeManagement.menu();
+    inquirer.prompt({message:questionText.employeeManagement.choose,
+      type:'input',
+      name:'id'}).then(function(response){
+        var id = response.id;
+        db.query('SELECT * FROM employees WHERE id = ?', [id], function(err, results){
+          console.clear();
+          if(err) console.log(err);
+          console.log('Employee Selected:');
+          console.log(results);
+          var result = results;
+          inquirer.prompt({message:questionText.generic.areYouSure,
+          type:'list',
+          name:'answer',
+          choices:[...questionText.generic.yesNo]}).then(function(response){
+            if(response.answer === questionText.generic.yesNo[0]){
+              db.query('DELETE FROM employees WHERE id = ?',[id], function(err, results){
+                console.clear();
+                if(err) console.log(err);
+                console.log('Element deleted.');
+                employeeManagement.menu();
+              });
+            }
+            else{
+              console.clear();
+              employeeManagement.menu();
+            }
+          })
+        })
+      })
   },
 
 }

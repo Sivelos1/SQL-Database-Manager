@@ -1,6 +1,7 @@
 # SQL Database Manager
 
   [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+![image](https://github.com/Sivelos1/SQL-Database-Manager/assets/21207337/9340cb31-5996-4f68-bc0c-1c58e51d007e)
 
   ## Table of Contents
   
